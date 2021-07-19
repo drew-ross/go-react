@@ -18,7 +18,7 @@ const Space = (props: SpaceProps): ReactElement => {
 
   return (
     <button className={`Space ${value}`} onClick={handleClick}>
-      <span>{value}</span>
+      <span>{yx[0]}, {yx[1]}</span>
     </button>
   );
 };
