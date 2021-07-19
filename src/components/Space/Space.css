@@ -3,4 +3,14 @@
   width: 2rem;
   height: 2rem;
   cursor: pointer;
+  background: rgb(136, 103, 65);
+}
+
+.Space.B {
+  background: black;
+  color: white;
+}
+
+.Space.W {
+  background: white;
 }
