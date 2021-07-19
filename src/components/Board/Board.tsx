@@ -15,13 +15,7 @@ const Board = (): ReactElement => {
 
   // Change the piece color that will be played
   const endTurn = () => {
-    setPlayerTurn(() => {
-      if (playerTurn === "B") {
-        return "W";
-      } else {
-        return "B";
-      }
-    });
+    setPlayerTurn(() => (playerTurn === "B" ? "W" : "B"));
   };
 
   // Place a piece for the current player if the space is empty
