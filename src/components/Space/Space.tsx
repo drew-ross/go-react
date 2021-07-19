@@ -7,10 +7,11 @@ interface SpaceProps {
   value: BoardSpace;
   yx: Coordinates;
   placePiece: (yx: Coordinates) => void;
+  showDebug: boolean;
 }
 
 const Space = (props: SpaceProps): ReactElement => {
-  const { value, yx, placePiece } = props;
+  const { value, yx, placePiece, showDebug } = props;
 
   const handleClick = () => {
     placePiece(yx);
@@ -18,7 +19,7 @@ const Space = (props: SpaceProps): ReactElement => {
 
   return (
     <button className={`Space ${value}`} onClick={handleClick}>
-      <span>{yx[0]}, {yx[1]}</span>
+      <span>{showDebug && `${yx[0]}, ${yx[1]}`}</span>
     </button>
   );
 };

@@ -12,6 +12,7 @@ const Board = (): ReactElement => {
     constructBoardMatrix()
   );
   const [playerTurn, setPlayerTurn] = useState<PieceColor>("B");
+  const [showDebug, setShowDebug] = useState<boolean>(false);
 
   // Change the piece color that will be played
   const endTurn = () => {
@@ -49,10 +50,14 @@ const Board = (): ReactElement => {
                 value={spaceValue}
                 yx={[coordY, coordX]}
                 placePiece={placePiece}
+                showDebug={showDebug}
               />
             ))}
           </div>
         ))}
+      <button onClick={() => setShowDebug(!showDebug)}>{`${
+        showDebug ? "Hide" : "Show"
+      } Debug Overlay`}</button>
     </div>
   );
 };
