@@ -24,6 +24,7 @@ const Board = (): ReactElement => {
     });
   };
 
+  // Place a piece for the current player if the space is empty
   const placePiece = (yx: Coordinates) => {
     setBoardMatrix((prevBoardMatrix) =>
       prevBoardMatrix.map((row, y) => {
