@@ -25,9 +25,9 @@ const Board = (): ReactElement => {
       prevBoardMatrix.map((row, y) => {
         if (yx[0] === y) {
           return row.map((space, x) => {
-            if (yx[1] === x && space === "N") {
+            if (yx[1] === x && space[0] === "N") {
               endTurn();
-              return playerTurn;
+              return [playerTurn, null];
             } else {
               return space;
             }

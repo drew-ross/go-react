@@ -1,7 +1,7 @@
 // Board spaces can be empty (N for null or no piece),
 // have a black piece (B)
 // or a white piece (W)
-export type BoardSpace = "N" | PieceColor;
+export type BoardSpace = ["N" | PieceColor, number | null];
 
 export type PieceColor = "B" | "W";
 
