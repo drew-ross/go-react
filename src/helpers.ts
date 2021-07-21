@@ -8,20 +8,20 @@ export const constructBoardMatrix = (size: number = 19): BoardMatrix => {
 };
 
 // Get value and group info for 4 surrounding spaces
-export const getSurroundingInfo = (boardMatrix: BoardMatrix, space: Coordinates) => {
+export const getSurroundingInfo = (boardMatrix: BoardMatrix, yx: Coordinates) => {
   const surroundingInfo = [];
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [space[0] - 1, space[1]]));
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [space[0], space[1] + 1]));
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [space[0] + 1, space[1]]));
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [space[0], space[1] - 1]));
+  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0] - 1, yx[1]]));
+  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0], yx[1] + 1]));
+  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0] + 1, yx[1]]));
+  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0], yx[1] - 1]));
   return surroundingInfo;
 }
 
 // Private functions
 
-const getSpaceInfo = (boardMatrix: BoardMatrix, space: Coordinates) => {
+const getSpaceInfo = (boardMatrix: BoardMatrix, yx: Coordinates) => {
   try {
-    return boardMatrix[space[0]][space[1]];
+    return boardMatrix[yx[0]][yx[1]];
   } catch {
     return undefined;
   }
