@@ -8,3 +8,5 @@ export type PieceColor = "B" | "W";
 export type BoardMatrix = Array<Array<BoardSpace>>;
 
 export type Coordinates = [number, number];
+
+export type Groups = { [key: number]: Coordinates };
