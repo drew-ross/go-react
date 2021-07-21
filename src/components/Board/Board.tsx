@@ -1,7 +1,16 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
-import { constructBoardMatrix } from "../../helpers";
-import { BoardMatrix, Coordinates, PieceColor } from "../../types/gameTypes";
+import {
+  constructBoardMatrix,
+  getSurroundingInfo,
+  placePiece,
+} from "../../helpers";
+import {
+  BoardMatrix,
+  Coordinates,
+  Groups,
+  PieceColor,
+} from "../../types/gameTypes";
 
 import Space from "../Space/Space";
 
@@ -13,6 +22,11 @@ const Board = (): ReactElement => {
   );
   const [playerTurn, setPlayerTurn] = useState<PieceColor>("B");
   const [showDebug, setShowDebug] = useState<boolean>(false);
+  const [groups, setGroups] = useState<Groups>({});
+
+  useEffect(() => {
+    console.log(groups);
+  }, [groups]);
 
   // Change the piece color that will be played
   const endTurn = () => {
@@ -20,23 +34,11 @@ const Board = (): ReactElement => {
   };
 
   // Place a piece for the current player if the space is empty
-  const placePiece = (yx: Coordinates) => {
-    setBoardMatrix((prevBoardMatrix) =>
-      prevBoardMatrix.map((row, y) => {
-        if (yx[0] === y) {
-          return row.map((space, x) => {
-            if (yx[1] === x && space[0] === "N") {
-              endTurn();
-              return [playerTurn, null];
-            } else {
-              return space;
-            }
-          });
-        } else {
-          return row;
-        }
-      })
+  const handlePlacePiece = (yx: Coordinates) => {
+    setBoardMatrix(
+      placePiece(boardMatrix as BoardMatrix, yx, playerTurn, endTurn)
     );
+    console.log(getSurroundingInfo(boardMatrix, yx));
   };
 
   return (
@@ -49,7 +51,7 @@ const Board = (): ReactElement => {
                 key={`${coordY}, ${coordX}`}
                 value={spaceValue}
                 yx={[coordY, coordX]}
-                placePiece={placePiece}
+                handlePlacePiece={handlePlacePiece}
                 showDebug={showDebug}
               />
             ))}
