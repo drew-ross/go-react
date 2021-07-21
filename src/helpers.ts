@@ -24,11 +24,7 @@ export const checkEmpty = (
 };
 
 // Checks the surrounding 4 spaces for number of empty spaces, aka "liberties"
-export const getLibertyCount = (
-  boardMatrix: BoardMatrix,
-  yx: Coordinates
-): number => {
-  const surroundingInfo = getSurroundingInfo(boardMatrix, yx);
+export const getLibertyCount = (surroundingInfo: BoardSpace[]): number => {
   let num = 0;
   surroundingInfo.forEach((space) => {
     if (space && space[0] === "N") {
