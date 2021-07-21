@@ -6,15 +6,15 @@ import "./Space.css";
 interface SpaceProps {
   value: BoardSpace;
   yx: Coordinates;
-  handlePlacePiece: (yx: Coordinates) => void;
+  handleMove: (yx: Coordinates) => void;
   showDebug: boolean;
 }
 
 const Space = (props: SpaceProps): ReactElement => {
-  const { value, yx, handlePlacePiece, showDebug } = props;
+  const { value, yx, handleMove, showDebug } = props;
 
   const handleClick = () => {
-    handlePlacePiece(yx);
+    handleMove(yx);
   };
 
   return (

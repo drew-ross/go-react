@@ -1,7 +1,9 @@
 import { ReactElement, useEffect, useState } from "react";
 
 import {
+  checkEmpty,
   constructBoardMatrix,
+  getLibertyCount,
   getSurroundingInfo,
   placePiece,
 } from "../../helpers";
@@ -33,25 +35,24 @@ const Board = (): ReactElement => {
     setPlayerTurn(() => (playerTurn === "B" ? "W" : "B"));
   };
 
-  // Place a piece for the current player if the space is empty
-  const handlePlacePiece = (yx: Coordinates) => {
-    setBoardMatrix(
-      placePiece(boardMatrix as BoardMatrix, yx, playerTurn, endTurn)
-    );
-    console.log(getSurroundingInfo(boardMatrix, yx));
+  const handleMove = (yx: Coordinates) => {
+    if (checkEmpty(boardMatrix, yx)) {
+      setBoardMatrix(placePiece(boardMatrix, yx, playerTurn));
+      endTurn();
+    }
   };
 
   return (
     <div className='Board'>
       {boardMatrix.length > 0 &&
         boardMatrix.map((row, coordY) => (
-          <div className='Board-row'>
+          <div className='Board-row' key={`${coordY}`}>
             {row.map((spaceValue, coordX) => (
               <Space
                 key={`${coordY}, ${coordX}`}
                 value={spaceValue}
                 yx={[coordY, coordX]}
-                handlePlacePiece={handlePlacePiece}
+                handleMove={handleMove}
                 showDebug={showDebug}
               />
             ))}
