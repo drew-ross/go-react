@@ -2,6 +2,7 @@ import {
   BoardMatrix,
   BoardSpace,
   Coordinates,
+  Groups,
   PieceColor,
 } from "./types/gameTypes";
 
@@ -82,3 +83,24 @@ export const getSpaceInfo = (
     return undefined;
   }
 };
+
+export const createGroup = (groups: Groups) => {};
+
+export const addToGroup = (
+  groups: Groups,
+  boardMatrix: BoardMatrix,
+  groupNumber: number,
+  yx: Coordinates
+) => {};
+
+export const combineGroups = (
+  groups: Groups,
+  boardMatrix: BoardMatrix,
+  groupNumbers: Array<number>
+) => {};
+
+export const captureGroups = (
+  groups: Groups,
+  boardMatrix: BoardMatrix,
+  groupNumbers: Array<number>
+) => {};
