@@ -178,3 +178,20 @@ export const removeGroup = (groups: Groups, groupNumber: number) => {
     return groups;
   }
 };
+
+export const getMatchingGroups = (
+  surroundingInfo: Array<BoardSpace | undefined>,
+  pieceColor: PieceColor
+): number[] => {
+  const matchingGroups: number[] = [];
+  surroundingInfo.forEach((space) => {
+    if (
+      space !== undefined &&
+      space[0] === pieceColor &&
+      typeof space[1] === typeof Number()
+    ) {
+      matchingGroups.push(space[1] as number);
+    }
+  });
+  return matchingGroups;
+};
