@@ -38,13 +38,14 @@ export const getLibertyCount = (surroundingInfo: BoardSpace[]): number => {
 export const placePiece = (
   boardMatrix: BoardMatrix,
   yx: Coordinates,
-  pieceColor: PieceColor
+  pieceColor: PieceColor,
+  groupNumber: number | null = null
 ): BoardMatrix => {
   return boardMatrix.map((row, y) => {
     if (yx[0] === y) {
       return row.map((space, x) => {
         if (yx[1] === x) {
-          return [pieceColor, null];
+          return [pieceColor, groupNumber];
         } else {
           return space;
         }
@@ -131,16 +132,16 @@ export const updateSpaceGroup = (
 ) => {};
 
 // Add space coordinates to groups, return new groups
-export const addSpaceToGroup = (
+export const addSpacesToGroup = (
   groups: Groups,
-  yx: Coordinates,
+  yxs: Coordinates[],
   groupNumber: number | undefined
 ): Groups => {
   if (groupNumber !== undefined && groups.hasOwnProperty(groupNumber)) {
     const newGroups: Groups = {};
     for (let key in groups) {
       if (Number(key) === groupNumber) {
-        newGroups[Number(key)] = [...groups[key], yx];
+        newGroups[Number(key)] = [...groups[key], ...yxs];
       } else {
         newGroups[Number(key)] = groups[key];
       }
