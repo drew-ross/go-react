@@ -162,3 +162,18 @@ export const captureGroups = (
   boardMatrix: BoardMatrix,
   groupNumbers: Array<number>
 ) => {};
+
+// Removes a group from the groups object only
+export const removeGroup = (groups: Groups, groupNumber: number) => {
+  if (groupNumber !== undefined && groups.hasOwnProperty(groupNumber)) {
+    const newGroups: Groups = {};
+    for (let key in groups) {
+      if (Number(key) !== groupNumber) {
+        newGroups[Number(key)] = groups[Number(key)];
+      }
+    }
+    return newGroups;
+  } else {
+    return groups;
+  }
+};
