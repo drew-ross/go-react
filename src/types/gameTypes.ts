@@ -5,7 +5,7 @@ export type BoardSpace = ["N" | PieceColor, number | null];
 
 export type PieceColor = "B" | "W";
 
-export type BoardMatrix = Array<Array<BoardSpace>>;
+export type BoardMatrix = BoardSpace[][];
 
 export type Coordinates = [number, number];
 

@@ -60,7 +60,7 @@ export const placePiece = (
 export const getSurroundingInfo = (
   boardMatrix: BoardMatrix,
   yx: Coordinates
-): Array<BoardSpace | undefined> => {
+): (BoardSpace | undefined)[] => {
   const surroundingInfo = [];
   surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0] - 1, yx[1]]));
   surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0], yx[1] + 1]));
@@ -155,13 +155,13 @@ export const addSpacesToGroup = (
 export const combineGroups = (
   groups: Groups,
   boardMatrix: BoardMatrix,
-  groupNumbers: Array<number>
+  groupNumbers: number[]
 ) => {};
 
 export const captureGroups = (
   groups: Groups,
   boardMatrix: BoardMatrix,
-  groupNumbers: Array<number>
+  groupNumbers: number[]
 ) => {};
 
 // Removes a group from the groups object only
@@ -180,7 +180,7 @@ export const removeGroup = (groups: Groups, groupNumber: number) => {
 };
 
 export const getMatchingGroups = (
-  surroundingInfo: Array<BoardSpace | undefined>,
+  surroundingInfo: (BoardSpace | undefined)[],
   pieceColor: PieceColor
 ): number[] => {
   const matchingGroups: number[] = [];
