@@ -1,11 +1,15 @@
 import { ReactElement, useEffect, useState } from "react";
 
 import {
+  addSpacesToGroup,
   checkEmpty,
+  combineGroups,
   constructBoardMatrix,
-  getLibertyCount,
+  createGroup,
+  getMatchingGroups,
   getSurroundingInfo,
   placePiece,
+  updateSpacesGroup,
 } from "../../helpers";
 import {
   BoardMatrix,
@@ -28,6 +32,7 @@ const Board = (): ReactElement => {
 
   useEffect(() => {
     console.log(groups);
+    console.log(boardMatrix);
   }, [groups]);
 
   // Change the piece color that will be played
@@ -37,7 +42,29 @@ const Board = (): ReactElement => {
 
   const handleMove = (yx: Coordinates) => {
     if (checkEmpty(boardMatrix, yx)) {
-      setBoardMatrix(placePiece(boardMatrix, yx, playerTurn));
+      const surroundingInfo = getSurroundingInfo(boardMatrix, yx);
+      // Check if player has pieces surrounding this spot
+      if (
+        surroundingInfo.some(
+          (space) => space !== undefined && space[0] === playerTurn
+        )
+      ) {
+        const groupNumbers = getMatchingGroups(surroundingInfo, playerTurn);
+        const combined = combineGroups(groups, boardMatrix, groupNumbers);
+        const newBoard = placePiece(
+          combined.boardMatrix,
+          combined.groups,
+          yx,
+          playerTurn,
+          combined.groupNumber
+        );
+        setBoardMatrix(newBoard.boardMatrix);
+        setGroups(newBoard.groups);
+      } else {
+        const newBoard = placePiece(boardMatrix, groups, yx, playerTurn);
+        setBoardMatrix(newBoard.boardMatrix);
+        setGroups(newBoard.groups);
+      }
       endTurn();
     }
   };
