@@ -9,4 +9,4 @@ export type BoardMatrix = BoardSpace[][];
 
 export type Coordinates = [number, number];
 
-export type Groups = { [key: number]: Coordinates[] | [] };
+export type Groups = { [key: number]: Coordinates[] };
