@@ -37,11 +37,18 @@ export const getLibertyCount = (surroundingInfo: BoardSpace[]): number => {
 // Add piece to space and return new boardMatrix
 export const placePiece = (
   boardMatrix: BoardMatrix,
+  groups: Groups,
   yx: Coordinates,
   pieceColor: PieceColor,
   groupNumber: number | null = null
-): BoardMatrix => {
-  return boardMatrix.map((row, y) => {
+): { boardMatrix: BoardMatrix; groups: Groups } => {
+  let newGroups = groups;
+  if (groupNumber === null) {
+    const newGroup = createGroup(groups);
+    groupNumber = newGroup.added;
+    newGroups = newGroup.groups;
+  }
+  const newBoardMatrix = boardMatrix.map((row, y) => {
     if (yx[0] === y) {
       return row.map((space, x) => {
         if (yx[1] === x) {
@@ -54,6 +61,12 @@ export const placePiece = (
       return row;
     }
   });
+  const updatedGroups = addSpacesToGroup(
+    newGroups,
+    [yx],
+    groupNumber as number
+  );
+  return { boardMatrix: newBoardMatrix as BoardMatrix, groups: updatedGroups }
 };
 
 // Get value and group info for 4 surrounding spaces
@@ -84,52 +97,33 @@ export const getSpaceInfo = (
 // Create a new group, return [new groups object, new group number]
 export const createGroup = (
   groups: Groups
-): { groups: Groups; added: number | undefined } => {
+): { groups: Groups; added: number | null } => {
   for (let i = 0; i < 1000; i++) {
     if (!groups.hasOwnProperty(i)) {
       return { groups: { ...groups, [i]: [] }, added: i };
     }
   }
-  return { groups, added: undefined };
-};
-
-export const addToGroup = (
-  groups: Groups,
-  boardMatrix: BoardMatrix,
-  groupNumber: number,
-  yx: Coordinates
-): [Groups, BoardMatrix] => {
-  if (
-    groups.hasOwnProperty(groupNumber) &&
-    boardMatrix[yx[0]] !== undefined &&
-    boardMatrix[yx[0]][yx[1]] !== undefined
-  ) {
-    return [
-      groups,
-      boardMatrix.map((row, y) => {
-        if (yx[0] === y) {
-          return row.map((space, x) => {
-            if (yx[1] === x) {
-              return [space[0], groupNumber];
-            } else {
-              return space;
-            }
-          });
-        } else {
-          return row;
-        }
-      }),
-    ];
-  } else {
-    return [groups, boardMatrix];
-  }
+  return { groups, added: null };
 };
 
 // Change space group number in boardMatrix, return new boardMatrix
-export const updateSpaceGroup = (
+export const updateSpacesGroup = (
   boardMatrix: BoardMatrix,
+  yxs: Coordinates[],
   groupNumber: number
-) => {};
+): BoardMatrix => {
+  const mutableBoardMatrix = boardMatrix.map((y) => {
+    return y.map((x) => {
+      return x.map((z) => {
+        return z;
+      });
+    });
+  });
+  yxs.forEach(([y, x]) => {
+    mutableBoardMatrix[y][x][1] = groupNumber;
+  });
+  return mutableBoardMatrix as BoardMatrix;
+};
 
 // Add space coordinates to groups, return new groups
 export const addSpacesToGroup = (
@@ -156,7 +150,30 @@ export const combineGroups = (
   groups: Groups,
   boardMatrix: BoardMatrix,
   groupNumbers: number[]
-) => {};
+): { boardMatrix: BoardMatrix; groups: Groups; groupNumber: number } => {
+  const lowestGroup: number = Math.min(...groupNumbers);
+  const otherGroups: number[] = groupNumbers.filter(
+    (num) => num !== lowestGroup
+  );
+  const spacesToChange: Coordinates[] = [];
+  otherGroups.forEach((groupNumber) => {
+    groups[groupNumber].forEach((yx) => {
+      spacesToChange.push(yx);
+    });
+  });
+  const newBoardMatrix = updateSpacesGroup(
+    boardMatrix,
+    spacesToChange,
+    lowestGroup
+  );
+  let newGroups = removeGroups(groups, otherGroups);
+  newGroups = addSpacesToGroup(groups, spacesToChange, lowestGroup);
+  return {
+    boardMatrix: newBoardMatrix,
+    groups: newGroups,
+    groupNumber: lowestGroup,
+  };
+};
 
 export const captureGroups = (
   groups: Groups,
