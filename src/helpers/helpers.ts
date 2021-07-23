@@ -174,8 +174,8 @@ export const combineGroups = (
     spacesToChange,
     lowestGroup
   );
-  let newGroups = removeGroups(groups, otherGroups);
-  newGroups = addSpacesToGroup(groups, spacesToChange, lowestGroup);
+  let newGroups = addSpacesToGroup(groups, spacesToChange, lowestGroup);
+  newGroups = removeGroups(newGroups, otherGroups);
   return {
     boardMatrix: newBoardMatrix,
     groups: newGroups,
