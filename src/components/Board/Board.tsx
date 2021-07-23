@@ -1,16 +1,13 @@
 import { ReactElement, useEffect, useState } from "react";
 
 import {
-  addSpacesToGroup,
   checkEmpty,
   combineGroups,
   constructBoardMatrix,
-  createGroup,
   getMatchingGroups,
   getSurroundingInfo,
   placePiece,
-  updateSpacesGroup,
-} from "../../helpers";
+} from "../../helpers/helpers";
 import {
   BoardMatrix,
   Coordinates,
@@ -33,7 +30,7 @@ const Board = (): ReactElement => {
   useEffect(() => {
     console.log(groups);
     console.log(boardMatrix);
-  }, [groups]);
+  }, [groups, boardMatrix]);
 
   // Change the piece color that will be played
   const endTurn = () => {
