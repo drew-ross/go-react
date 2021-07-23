@@ -4,7 +4,7 @@ import {
   Coordinates,
   Groups,
   PieceColor,
-} from "./types/gameTypes";
+} from "../types/gameTypes";
 
 export const constructBoardMatrix = (size: number = 19): BoardMatrix => {
   return new Array(size).fill(
