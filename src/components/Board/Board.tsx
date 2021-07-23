@@ -26,10 +26,15 @@ const Board = (): ReactElement => {
   const [playerTurn, setPlayerTurn] = useState<PieceColor>("B");
   const [showDebug, setShowDebug] = useState<boolean>(false);
   const [groups, setGroups] = useState<Groups>({});
+  // Debug state
+  const [renderCycle, setRenderCycle] = useState(0);
 
+  // Debug logs
   useEffect(() => {
-    console.log(groups);
-    console.log(boardMatrix);
+    console.log(`--- Cycle ${renderCycle}`);
+    setRenderCycle(renderCycle + 1);
+    console.log("groups", groups);
+    console.log("boardMatrix", boardMatrix);
   }, [groups, boardMatrix]);
 
   // Change the piece color that will be played
