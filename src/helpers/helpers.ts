@@ -1,3 +1,4 @@
+import { BOARD_SIZE_MAX, BOARD_SIZE_MIN } from "../constants/constants";
 import {
   BoardMatrix,
   BoardSpace,
@@ -7,6 +8,13 @@ import {
 } from "../types/gameTypes";
 
 export const constructBoardMatrix = (size: number = 19): BoardMatrix => {
+  if (
+    typeof size !== typeof Number() ||
+    size < BOARD_SIZE_MIN ||
+    size > BOARD_SIZE_MAX
+  ) {
+    size = 19;
+  }
   return new Array(size).fill(
     new Array<BoardSpace>(size).fill(["N", null], 0, size),
     0,
@@ -66,7 +74,7 @@ export const placePiece = (
     [yx],
     groupNumber as number
   );
-  return { boardMatrix: newBoardMatrix as BoardMatrix, groups: updatedGroups }
+  return { boardMatrix: newBoardMatrix as BoardMatrix, groups: updatedGroups };
 };
 
 // Get value and group info for 4 surrounding spaces
