@@ -35,6 +35,7 @@ const Board = (): ReactElement => {
     setRenderCycle(renderCycle + 1);
     console.log("groups", groups);
     console.log("boardMatrix", boardMatrix);
+    // eslint-disable-next-line
   }, [groups, boardMatrix]);
 
   // Change the piece color that will be played
