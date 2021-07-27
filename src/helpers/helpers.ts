@@ -43,7 +43,7 @@ export const getLibertyCountForGroups = (
   // Get info for spaces surrounding the group
   groups[groupNumber]?.forEach((yx) => {
     const surroundingInfo = getSurroundingInfo(boardMatrix, yx);
-    surroundingInfo.forEach(metaSpace => {
+    surroundingInfo.forEach((metaSpace) => {
       // Check set for coordinates to ensure no double-counting
       if (!checkedSpaces.has(String(metaSpace.yx))) {
         checkedSpaces.add(String(metaSpace.yx));
@@ -52,7 +52,17 @@ export const getLibertyCountForGroups = (
           count += 1;
         }
       }
-    })
+    });
+  });
+  return count;
+};
+
+export const getLibertyCountFromSpaces = (spaces: BoardSpace[]): number => {
+  let count = 0;
+  spaces.forEach((space) => {
+    if (space[0] === "N") {
+      count += 1;
+    }
   });
   return count;
 };
