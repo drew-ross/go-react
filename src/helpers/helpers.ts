@@ -33,7 +33,7 @@ export const checkEmpty = (
 };
 
 // Checks the surrounding spaces for number of empty spaces, aka "liberties"
-export const getLibertyCount = (
+export const getLibertyCountForGroups = (
   groups: Groups,
   boardMatrix: BoardMatrix,
   groupNumber: number
