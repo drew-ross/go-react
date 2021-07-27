@@ -4,6 +4,7 @@ import {
   BoardSpace,
   Coordinates,
   Groups,
+  MetaSpace,
   PieceColor,
 } from "../types/gameTypes";
 
@@ -31,15 +32,29 @@ export const checkEmpty = (
   return thisSpace !== undefined && thisSpace[0] === "N";
 };
 
-// Checks the surrounding 4 spaces for number of empty spaces, aka "liberties"
-export const getLibertyCount = (surroundingInfo: BoardSpace[]): number => {
-  let num = 0;
-  surroundingInfo.forEach((space) => {
-    if (space && space[0] === "N") {
-      num += 1;
-    }
+// Checks the surrounding spaces for number of empty spaces, aka "liberties"
+export const getLibertyCount = (
+  groups: Groups,
+  boardMatrix: BoardMatrix,
+  groupNumber: number
+): number => {
+  let count = 0;
+  const checkedSpaces = new Set();
+  // Get info for spaces surrounding the group
+  groups[groupNumber]?.forEach((yx) => {
+    const surroundingInfo = getSurroundingInfo(boardMatrix, yx);
+    surroundingInfo.forEach(metaSpace => {
+      // Check set for coordinates to ensure no double-counting
+      if (!checkedSpaces.has(String(metaSpace.yx))) {
+        checkedSpaces.add(String(metaSpace.yx));
+        // If empty, add to count
+        if (metaSpace.space[0] === "N") {
+          count += 1;
+        }
+      }
+    })
   });
-  return num;
+  return count;
 };
 
 // Add piece to space and return new boardMatrix
@@ -77,17 +92,38 @@ export const placePiece = (
   return { boardMatrix: newBoardMatrix as BoardMatrix, groups: updatedGroups };
 };
 
-// Get value and group info for 4 surrounding spaces
+// Get space info and yx coordinates for 4 surrounding spaces
 export const getSurroundingInfo = (
   boardMatrix: BoardMatrix,
-  yx: Coordinates
-): (BoardSpace | undefined)[] => {
-  const surroundingInfo = [];
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0] - 1, yx[1]]));
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0], yx[1] + 1]));
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0] + 1, yx[1]]));
-  surroundingInfo.push(getSpaceInfo(boardMatrix, [yx[0], yx[1] - 1]));
-  return surroundingInfo;
+  [y, x]: Coordinates
+): MetaSpace[] => {
+  const metaSpaces: MetaSpace[] = [];
+  const above: Coordinates = [y - 1, x];
+  const right: Coordinates = [y, x + 1];
+  const below: Coordinates = [y + 1, x];
+  const left: Coordinates = [y, x - 1];
+  metaSpaces.push({
+    space: getSpaceInfo(boardMatrix, above) || [null, null],
+    yx: above,
+  });
+  metaSpaces.push({
+    space: getSpaceInfo(boardMatrix, right) || [null, null],
+    yx: right,
+  });
+  metaSpaces.push({
+    space: getSpaceInfo(boardMatrix, below) || [null, null],
+    yx: below,
+  });
+  metaSpaces.push({
+    space: getSpaceInfo(boardMatrix, left) || [null, null],
+    yx: left,
+  });
+  return metaSpaces;
+};
+
+// Remove coordinate info from MetaSpace[]
+export const getSpacesFromMetas = (metaSpaces: MetaSpace[]): BoardSpace[] => {
+  return metaSpaces.map((metaSpace) => metaSpace.space);
 };
 
 // Get value and group info for a space
@@ -204,11 +240,11 @@ export const removeGroups = (
 };
 
 export const getMatchingGroups = (
-  surroundingInfo: (BoardSpace | undefined)[],
+  spaces: (BoardSpace | undefined)[],
   pieceColor: PieceColor
 ): number[] => {
   const matchingGroups: number[] = [];
-  surroundingInfo.forEach((space) => {
+  spaces.forEach((space) => {
     if (
       space !== undefined &&
       space[0] === pieceColor &&
