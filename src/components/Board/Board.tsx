@@ -5,6 +5,7 @@ import {
   combineGroups,
   constructBoardMatrix,
   getMatchingGroups,
+  getSpacesFromMetas,
   getSurroundingInfo,
   placePiece,
 } from "../../helpers/helpers";
@@ -49,10 +50,14 @@ const Board = (): ReactElement => {
       // Check if player has pieces surrounding this spot
       if (
         surroundingInfo.some(
-          (space) => space !== undefined && space[0] === playerTurn
+          (metaSpace) =>
+            metaSpace.space !== undefined && metaSpace.space[0] === playerTurn
         )
       ) {
-        const groupNumbers = getMatchingGroups(surroundingInfo, playerTurn);
+        const groupNumbers = getMatchingGroups(
+          getSpacesFromMetas(surroundingInfo),
+          playerTurn
+        );
         const combined = combineGroups(groups, boardMatrix, groupNumbers);
         const newBoard = placePiece(
           combined.boardMatrix,
