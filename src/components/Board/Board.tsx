@@ -4,6 +4,8 @@ import {
   checkEmpty,
   combineGroups,
   constructBoardMatrix,
+  getLibertyCountForGroup,
+  getLibertyCountFromSpaces,
   getMatchingGroups,
   getSpacesFromMetas,
   getSurroundingInfo,
@@ -47,17 +49,18 @@ const Board = (): ReactElement => {
   const handleMove = (yx: Coordinates) => {
     if (checkEmpty(boardMatrix, yx)) {
       const surroundingInfo = getSurroundingInfo(boardMatrix, yx);
-      // Check if player has pieces surrounding this spot
+      const groupNumbers = getMatchingGroups(
+        getSpacesFromMetas(surroundingInfo),
+        playerTurn
+      );
+      // Check if player has groups surrounding the chosen space with enough liberties
       if (
-        surroundingInfo.some(
-          (metaSpace) =>
-            metaSpace.space !== undefined && metaSpace.space[0] === playerTurn
+        groupNumbers.length > 0 &&
+        groupNumbers.some(
+          (groupNumber) =>
+            getLibertyCountForGroup(groups, boardMatrix, groupNumber) > 1
         )
       ) {
-        const groupNumbers = getMatchingGroups(
-          getSpacesFromMetas(surroundingInfo),
-          playerTurn
-        );
         const combined = combineGroups(groups, boardMatrix, groupNumbers);
         const newBoard = placePiece(
           combined.boardMatrix,
@@ -68,12 +71,16 @@ const Board = (): ReactElement => {
         );
         setBoardMatrix(newBoard.boardMatrix);
         setGroups(newBoard.groups);
-      } else {
+        endTurn();
+      } else if (
+        // Check if this space has enough liberties
+        getLibertyCountFromSpaces(getSpacesFromMetas(surroundingInfo)) > 0
+      ) {
         const newBoard = placePiece(boardMatrix, groups, yx, playerTurn);
         setBoardMatrix(newBoard.boardMatrix);
         setGroups(newBoard.groups);
+        endTurn();
       }
-      endTurn();
     }
   };
 
