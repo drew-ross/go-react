@@ -251,16 +251,20 @@ export const removeGroups = (
 
 export const getMatchingGroups = (
   spaces: (BoardSpace | undefined)[],
-  pieceColor: PieceColor
-): number[] => {
-  const matchingGroups: number[] = [];
+  myColor: PieceColor
+): { myGroups: number[]; opponentGroups: number[] } => {
+  const matchingGroups = {
+    myGroups: [] as number[],
+    opponentGroups: [] as number[],
+  };
+  const opponentColor = myColor === "B" ? "W" : "B";
   spaces.forEach((space) => {
-    if (
-      space !== undefined &&
-      space[0] === pieceColor &&
-      typeof space[1] === typeof Number()
-    ) {
-      matchingGroups.push(space[1] as number);
+    if (space !== undefined && typeof space[1] === typeof Number()) {
+      if (space[0] === myColor) {
+        matchingGroups.myGroups.push(space[1] as number);
+      } else if (space[0] === opponentColor) {
+        matchingGroups.opponentGroups.push(space[1] as number);
+      }
     }
   });
   return matchingGroups;
