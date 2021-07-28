@@ -166,13 +166,7 @@ export const updateSpacesGroup = (
   yxs: Coordinates[],
   groupNumber: number
 ): BoardMatrix => {
-  const mutableBoardMatrix = boardMatrix.map((y) => {
-    return y.map((x) => {
-      return x.map((z) => {
-        return z;
-      });
-    });
-  });
+  const mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
   yxs.forEach(([y, x]) => {
     mutableBoardMatrix[y][x][1] = groupNumber;
   });
@@ -268,4 +262,16 @@ export const getMatchingGroups = (
     }
   });
   return matchingGroups;
+};
+
+export const createMutableBoardMatrix = (
+  boardMatrix: BoardMatrix
+): BoardMatrix => {
+  return boardMatrix.map((y) => {
+    return y.map((x) => {
+      return x.map((z) => {
+        return z;
+      });
+    });
+  }) as BoardMatrix;
 };
