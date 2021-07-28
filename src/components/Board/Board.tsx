@@ -55,13 +55,13 @@ const Board = (): ReactElement => {
       );
       // Check if player has groups surrounding the chosen space with enough liberties
       if (
-        groupNumbers.length > 0 &&
-        groupNumbers.some(
+        groupNumbers.myGroups.length > 0 &&
+        groupNumbers.myGroups.some(
           (groupNumber) =>
             getLibertyCountForGroup(groups, boardMatrix, groupNumber) > 1
         )
       ) {
-        const combined = combineGroups(groups, boardMatrix, groupNumbers);
+        const combined = combineGroups(groups, boardMatrix, groupNumbers.myGroups);
         const newBoard = placePiece(
           combined.boardMatrix,
           combined.groups,
