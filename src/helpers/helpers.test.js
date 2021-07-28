@@ -106,7 +106,7 @@ describe("combineGroups", () => {
   // Input
   const groupNumbersInput1 = [0, 2, 4, 3];
 
-  // Output
+  // Expected output
   const groupNumberOutput1 = 0;
 
   // Action
@@ -116,7 +116,7 @@ describe("combineGroups", () => {
     groupNumbersInput1
   );
 
-  // Assert
+  // Assertion
   expect(output1.groups).toEqual(combineGroups_groupsOutput_1);
   expect(output1.groupNumber).toEqual(groupNumberOutput1);
   expect(output1.boardMatrix).toEqual(combineGroups_matrixOutput_1);
