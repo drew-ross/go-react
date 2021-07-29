@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from "react";
 
 import {
+  captureGroups,
   checkEmpty,
   combineGroups,
   constructBoardMatrix,
@@ -61,24 +62,58 @@ const Board = (): ReactElement => {
             getLibertyCountForGroup(groups, boardMatrix, groupNumber) > 1
         )
       ) {
-        const combined = combineGroups(groups, boardMatrix, groupNumbers.myGroups);
-        const newBoard = placePiece(
+        // Place the piece and combine adjacent groups
+        const combined = combineGroups(
+          groups,
+          boardMatrix,
+          groupNumbers.myGroups
+        );
+        const boardWithPlayerMove = placePiece(
           combined.boardMatrix,
           combined.groups,
           yx,
           playerTurn,
           combined.groupNumber
         );
-        setBoardMatrix(newBoard.boardMatrix);
-        setGroups(newBoard.groups);
+        // Capture opponent groups if able
+        const opponentsToCapture: number[] = [];
+        groupNumbers.opponentGroups.forEach((groupNumber) => {
+          if (
+            getLibertyCountForGroup(
+              boardWithPlayerMove.groups,
+              boardWithPlayerMove.boardMatrix,
+              groupNumber
+            ) === 0
+          ) {
+            opponentsToCapture.push(groupNumber);
+          }
+        });
+        if (opponentsToCapture.length > 0) {
+          const boardWithCaptures = captureGroups(
+            boardWithPlayerMove.groups,
+            boardWithPlayerMove.boardMatrix,
+            opponentsToCapture
+          );
+          setBoardMatrix(boardWithCaptures.boardMatrix);
+          setGroups(boardWithCaptures.groups);
+          console.log(boardWithCaptures.points);
+        } else {
+          setBoardMatrix(boardWithPlayerMove.boardMatrix);
+          setGroups(boardWithPlayerMove.groups);
+        }
         endTurn();
       } else if (
         // Check if this space has enough liberties
         getLibertyCountFromSpaces(getSpacesFromMetas(surroundingInfo)) > 0
       ) {
-        const newBoard = placePiece(boardMatrix, groups, yx, playerTurn);
-        setBoardMatrix(newBoard.boardMatrix);
-        setGroups(newBoard.groups);
+        const boardWithPlayerMove = placePiece(
+          boardMatrix,
+          groups,
+          yx,
+          playerTurn
+        );
+        setBoardMatrix(boardWithPlayerMove.boardMatrix);
+        setGroups(boardWithPlayerMove.groups);
         endTurn();
       }
     }
