@@ -6,6 +6,7 @@ import {
   Groups,
   MetaSpace,
   PieceColor,
+  Points,
 } from "../types/gameTypes";
 
 export const constructBoardMatrix = (size: number = 19): BoardMatrix => {
@@ -176,7 +177,7 @@ export const updateSpacesGroup = (
 // Reset space to default value
 export const resetSpaces = (
   boardMatrix: BoardMatrix,
-  yxs: Coordinates[],
+  yxs: Coordinates[]
 ): BoardMatrix => {
   const mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
   yxs.forEach(([y, x]) => {
@@ -249,10 +250,7 @@ export const captureGroups = (
   let mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
   let points = 0;
   groupNumbers.forEach((groupNumber) => {
-    mutableBoardMatrix = resetSpaces(
-      mutableBoardMatrix,
-      groups[groupNumber],
-    );
+    mutableBoardMatrix = resetSpaces(mutableBoardMatrix, groups[groupNumber]);
     points += groups[groupNumber].length;
   });
   return {
@@ -307,4 +305,15 @@ export const createMutableBoardMatrix = (
       });
     });
   }) as BoardMatrix;
+};
+
+export const addPoints = (
+  points: Points,
+  playerTurn: PieceColor,
+  add: number
+): Points => {
+  return {
+    black: playerTurn === "B" ? points.black + add : points.black,
+    white: playerTurn === "W" ? points.white + add : points.white,
+  };
 };
