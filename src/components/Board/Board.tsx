@@ -62,6 +62,12 @@ const Board = (): ReactElement => {
         getSpacesFromMetas(surroundingInfo),
         playerTurn
       );
+      const opponentsToCapture: number[] = [];
+      groupNumbers.opponentGroups.forEach((groupNumber) => {
+        if (getLibertyCountForGroup(groups, boardMatrix, groupNumber) === 1) {
+          opponentsToCapture.push(groupNumber);
+        }
+      });
       let newGroups: Groups = {};
       let newBoardMatrix: BoardMatrix = [];
       // Check if player has groups surrounding the chosen space with enough liberties
@@ -87,11 +93,10 @@ const Board = (): ReactElement => {
         );
         newBoardMatrix = boardWithPlayerMove.boardMatrix;
         newGroups = boardWithPlayerMove.groups;
-
-        endTurn();
       } else if (
-        // Check if this space has enough liberties
-        getLibertyCountFromSpaces(getSpacesFromMetas(surroundingInfo)) > 0
+        // Check if this space has enough liberties or can capture
+        getLibertyCountFromSpaces(getSpacesFromMetas(surroundingInfo)) > 0 ||
+        opponentsToCapture.length > 0
       ) {
         const boardWithPlayerMove = placePiece(
           boardMatrix,
@@ -103,14 +108,6 @@ const Board = (): ReactElement => {
         newGroups = boardWithPlayerMove.groups;
       }
       // Capture opponent groups if able
-      const opponentsToCapture: number[] = [];
-      groupNumbers.opponentGroups.forEach((groupNumber) => {
-        if (
-          getLibertyCountForGroup(newGroups, newBoardMatrix, groupNumber) === 0
-        ) {
-          opponentsToCapture.push(groupNumber);
-        }
-      });
       if (opponentsToCapture.length > 0) {
         const boardWithCaptures = captureGroups(
           newGroups,
@@ -121,9 +118,11 @@ const Board = (): ReactElement => {
         newGroups = boardWithCaptures.groups;
         setPoints(addPoints(points, playerTurn, boardWithCaptures.points));
       }
-      setBoardMatrix(newBoardMatrix);
-      setGroups(newGroups);
-      endTurn();
+      if (newBoardMatrix.length !== 0 && Object.keys(newGroups).length !== 0) {
+        setBoardMatrix(newBoardMatrix);
+        setGroups(newGroups);
+        endTurn();
+      }
     }
   };
 
