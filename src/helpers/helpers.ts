@@ -164,7 +164,7 @@ export const createGroup = (
 export const updateSpacesGroup = (
   boardMatrix: BoardMatrix,
   yxs: Coordinates[],
-  groupNumber: number
+  groupNumber: number | null
 ): BoardMatrix => {
   const mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
   yxs.forEach(([y, x]) => {
@@ -223,11 +223,33 @@ export const combineGroups = (
   };
 };
 
+// Remove captured groups from board and return new board and points earned
 export const captureGroups = (
   groups: Groups,
   boardMatrix: BoardMatrix,
   groupNumbers: number[]
-) => {};
+): {
+  newBoardMatrix: BoardMatrix;
+  newGroups: Groups;
+  points: number;
+} => {
+  const newGroups = removeGroups(groups, groupNumbers);
+  let mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
+  let points = 0;
+  groupNumbers.forEach((groupNumber) => {
+    mutableBoardMatrix = updateSpacesGroup(
+      mutableBoardMatrix,
+      groups[groupNumber],
+      null
+    );
+    points += groups[groupNumber].length;
+  });
+  return {
+    newBoardMatrix: mutableBoardMatrix,
+    newGroups,
+    points,
+  };
+};
 
 // Removes a group from the groups object only
 export const removeGroups = (
