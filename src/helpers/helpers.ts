@@ -173,6 +173,18 @@ export const updateSpacesGroup = (
   return mutableBoardMatrix as BoardMatrix;
 };
 
+// Reset space to default value
+export const resetSpaces = (
+  boardMatrix: BoardMatrix,
+  yxs: Coordinates[],
+): BoardMatrix => {
+  const mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
+  yxs.forEach(([y, x]) => {
+    mutableBoardMatrix[y][x] = ["N", null];
+  });
+  return mutableBoardMatrix as BoardMatrix;
+};
+
 // Add space coordinates to groups, return new groups
 export const addSpacesToGroup = (
   groups: Groups,
@@ -229,24 +241,23 @@ export const captureGroups = (
   boardMatrix: BoardMatrix,
   groupNumbers: number[]
 ): {
-  newBoardMatrix: BoardMatrix;
-  newGroups: Groups;
+  boardMatrix: BoardMatrix;
+  groups: Groups;
   points: number;
 } => {
   const newGroups = removeGroups(groups, groupNumbers);
   let mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
   let points = 0;
   groupNumbers.forEach((groupNumber) => {
-    mutableBoardMatrix = updateSpacesGroup(
+    mutableBoardMatrix = resetSpaces(
       mutableBoardMatrix,
       groups[groupNumber],
-      null
     );
     points += groups[groupNumber].length;
   });
   return {
-    newBoardMatrix: mutableBoardMatrix,
-    newGroups,
+    boardMatrix: mutableBoardMatrix,
+    groups: newGroups,
     points,
   };
 };
