@@ -19,7 +19,12 @@ const Space = (props: SpaceProps): ReactElement => {
 
   return (
     <button className={`Space ${value[0]}`} onClick={handleClick}>
-      <span>{showDebug && `${yx[0]}, ${yx[1]}`}</span>
+      <div className='line-h' />
+      <div className='line-v' />
+      <div className='stone-display' />
+      {showDebug && (
+        <span className='debug-display'>{`${yx[0]}, ${yx[1]}`}</span>
+      )}
     </button>
   );
 };
