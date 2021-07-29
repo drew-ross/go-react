@@ -54,6 +54,8 @@ const Board = (): ReactElement => {
         getSpacesFromMetas(surroundingInfo),
         playerTurn
       );
+      let newGroups: Groups = {};
+      let newBoardMatrix: BoardMatrix = [];
       // Check if player has groups surrounding the chosen space with enough liberties
       if (
         groupNumbers.myGroups.length > 0 &&
@@ -75,32 +77,9 @@ const Board = (): ReactElement => {
           playerTurn,
           combined.groupNumber
         );
-        // Capture opponent groups if able
-        const opponentsToCapture: number[] = [];
-        groupNumbers.opponentGroups.forEach((groupNumber) => {
-          if (
-            getLibertyCountForGroup(
-              boardWithPlayerMove.groups,
-              boardWithPlayerMove.boardMatrix,
-              groupNumber
-            ) === 0
-          ) {
-            opponentsToCapture.push(groupNumber);
-          }
-        });
-        if (opponentsToCapture.length > 0) {
-          const boardWithCaptures = captureGroups(
-            boardWithPlayerMove.groups,
-            boardWithPlayerMove.boardMatrix,
-            opponentsToCapture
-          );
-          setBoardMatrix(boardWithCaptures.boardMatrix);
-          setGroups(boardWithCaptures.groups);
-          console.log(boardWithCaptures.points);
-        } else {
-          setBoardMatrix(boardWithPlayerMove.boardMatrix);
-          setGroups(boardWithPlayerMove.groups);
-        }
+        newBoardMatrix = boardWithPlayerMove.boardMatrix;
+        newGroups = boardWithPlayerMove.groups;
+
         endTurn();
       } else if (
         // Check if this space has enough liberties
@@ -112,10 +91,35 @@ const Board = (): ReactElement => {
           yx,
           playerTurn
         );
-        setBoardMatrix(boardWithPlayerMove.boardMatrix);
-        setGroups(boardWithPlayerMove.groups);
-        endTurn();
+        newBoardMatrix = boardWithPlayerMove.boardMatrix;
+        newGroups = boardWithPlayerMove.groups;
       }
+      // Capture opponent groups if able
+      const opponentsToCapture: number[] = [];
+      groupNumbers.opponentGroups.forEach((groupNumber) => {
+        if (
+          getLibertyCountForGroup(
+            newGroups,
+            newBoardMatrix,
+            groupNumber
+          ) === 0
+        ) {
+          opponentsToCapture.push(groupNumber);
+        }
+      });
+      if (opponentsToCapture.length > 0) {
+        const boardWithCaptures = captureGroups(
+          newGroups,
+          newBoardMatrix,
+          opponentsToCapture
+        );
+        newBoardMatrix = boardWithCaptures.boardMatrix;
+        newGroups = boardWithCaptures.groups;
+        console.log(boardWithCaptures.points);
+      }
+      setBoardMatrix(newBoardMatrix);
+      setGroups(newGroups);
+      endTurn();
     }
   };
 
