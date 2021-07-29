@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from "react";
 
 import {
+  addPoints,
   captureGroups,
   checkEmpty,
   combineGroups,
@@ -17,6 +18,7 @@ import {
   Coordinates,
   Groups,
   PieceColor,
+  Points,
 } from "../../types/gameTypes";
 
 import Space from "../Space/Space";
@@ -30,6 +32,11 @@ const Board = (): ReactElement => {
   const [playerTurn, setPlayerTurn] = useState<PieceColor>("B");
   const [showDebug, setShowDebug] = useState<boolean>(false);
   const [groups, setGroups] = useState<Groups>({});
+  const [komi, setKomi] = useState<Points>({ black: 0, white: 7.5 });
+  const [points, setPoints] = useState<Points>({
+    black: komi.black,
+    white: komi.white,
+  });
   // Debug state
   const [renderCycle, setRenderCycle] = useState(0);
 
@@ -98,11 +105,7 @@ const Board = (): ReactElement => {
       const opponentsToCapture: number[] = [];
       groupNumbers.opponentGroups.forEach((groupNumber) => {
         if (
-          getLibertyCountForGroup(
-            newGroups,
-            newBoardMatrix,
-            groupNumber
-          ) === 0
+          getLibertyCountForGroup(newGroups, newBoardMatrix, groupNumber) === 0
         ) {
           opponentsToCapture.push(groupNumber);
         }
@@ -115,7 +118,7 @@ const Board = (): ReactElement => {
         );
         newBoardMatrix = boardWithCaptures.boardMatrix;
         newGroups = boardWithCaptures.groups;
-        console.log(boardWithCaptures.points);
+        setPoints(addPoints(points, playerTurn, boardWithCaptures.points));
       }
       setBoardMatrix(newBoardMatrix);
       setGroups(newGroups);
