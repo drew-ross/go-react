@@ -180,7 +180,7 @@ export const resetSpaces = (
   yxs: Coordinates[]
 ): BoardMatrix => {
   const mutableBoardMatrix = createMutableBoardMatrix(boardMatrix);
-  yxs.forEach(([y, x]) => {
+  yxs?.forEach(([y, x]) => {
     mutableBoardMatrix[y][x] = ["N", null];
   });
   return mutableBoardMatrix as BoardMatrix;
@@ -251,7 +251,7 @@ export const captureGroups = (
   let points = 0;
   groupNumbers.forEach((groupNumber) => {
     mutableBoardMatrix = resetSpaces(mutableBoardMatrix, groups[groupNumber]);
-    points += groups[groupNumber].length;
+    points += groups[groupNumber]?.length;
   });
   return {
     boardMatrix: mutableBoardMatrix,
