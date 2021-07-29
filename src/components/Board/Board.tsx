@@ -127,27 +127,29 @@ const Board = (): ReactElement => {
   };
 
   return (
-    <div className='Board'>
+    <div className='Board-Container'>
       <GameDisplay
         points={points}
         playerTurn={playerTurn}
         komi={komi}
         setKomi={setKomi}
       />
-      {boardMatrix.length > 0 &&
-        boardMatrix.map((row, coordY) => (
-          <div className='Board-row' key={`${coordY}`}>
-            {row.map((spaceValue, coordX) => (
-              <Space
-                key={`${coordY}, ${coordX}`}
-                value={spaceValue}
-                yx={[coordY, coordX]}
-                handleMove={handleMove}
-                showDebug={showDebug}
-              />
-            ))}
-          </div>
-        ))}
+      <div className='Board'>
+        {boardMatrix.length > 0 &&
+          boardMatrix.map((row, coordY) => (
+            <div className='Board-row' key={`${coordY}`}>
+              {row.map((spaceValue, coordX) => (
+                <Space
+                  key={`${coordY}, ${coordX}`}
+                  value={spaceValue}
+                  yx={[coordY, coordX]}
+                  handleMove={handleMove}
+                  showDebug={showDebug}
+                />
+              ))}
+            </div>
+          ))}
+      </div>
       <button onClick={() => setShowDebug(!showDebug)}>{`${
         showDebug ? "Hide" : "Show"
       } Debug Overlay`}</button>
