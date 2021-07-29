@@ -1,11 +1,11 @@
 .Space {
   display: inline;
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  width: 32px;
+  height: 32px;
   padding: 0;
   cursor: pointer;
-  background: rgb(182, 133, 78);
+  background: none;
   border: none;
 }
 
