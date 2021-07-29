@@ -22,6 +22,7 @@ import {
 } from "../../types/gameTypes";
 
 import Space from "../Space/Space";
+import GameDisplay from "../GameDisplay/GameDisplay";
 
 import "./Board.css";
 
@@ -128,6 +129,12 @@ const Board = (): ReactElement => {
 
   return (
     <div className='Board'>
+      <GameDisplay
+        points={points}
+        playerTurn={playerTurn}
+        komi={komi}
+        setKomi={setKomi}
+      />
       {boardMatrix.length > 0 &&
         boardMatrix.map((row, coordY) => (
           <div className='Board-row' key={`${coordY}`}>
