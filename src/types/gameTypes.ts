@@ -15,6 +15,11 @@ export type Coordinates = [number, number];
 
 export type Groups = { [key: number]: Coordinates[] };
 
+export interface Points {
+  black: number;
+  white: number;
+}
+
 export interface MetaSpace {
   space: BoardSpace;
   yx: Coordinates;
