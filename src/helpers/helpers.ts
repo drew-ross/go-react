@@ -274,6 +274,7 @@ export const removeGroups = (
   return newGroups;
 };
 
+// Returns an object with player and opponent group numbers from an array of spaces
 export const getMatchingGroups = (
   spaces: (BoardSpace | undefined)[],
   myColor: PieceColor
@@ -285,9 +286,15 @@ export const getMatchingGroups = (
   const opponentColor = myColor === "B" ? "W" : "B";
   spaces.forEach((space) => {
     if (space !== undefined && typeof space[1] === typeof Number()) {
-      if (space[0] === myColor) {
+      if (
+        space[0] === myColor &&
+        !matchingGroups.myGroups.includes(space[1] as number)
+      ) {
         matchingGroups.myGroups.push(space[1] as number);
-      } else if (space[0] === opponentColor) {
+      } else if (
+        space[0] === opponentColor &&
+        !matchingGroups.opponentGroups.includes(space[1] as number)
+      ) {
         matchingGroups.opponentGroups.push(space[1] as number);
       }
     }
