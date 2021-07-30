@@ -12,8 +12,8 @@
 .star-point {
   height: 5px;
   width: 5px;
-  left: calc(50% - 3px);
-  top: calc(50% - 3px);
+  left: calc(50% - 2px);
+  top: calc(50% - 2px);
 }
 
 .star-point,
@@ -95,7 +95,7 @@
 .line-h--bottom-left,
 .line-h--bottom-right {
   height: 1px;
-  top: calc(50% - 1px);
+  top: 50%;
 }
 
 /* horizontal lines specific styles */
@@ -131,7 +131,7 @@
 .line-v--bottom-left,
 .line-v--bottom-right {
   width: 1px;
-  left: calc(50% - 1px);
+  left: 50%;
 }
 
 /* vertical lines specific styles */
@@ -160,4 +160,8 @@
 .line-v--bottom-left,
 .line-v--bottom-right {
   top: 0;
+}
+
+.line-v--bottom-right {
+  height: calc(50% + 1px);
 }
