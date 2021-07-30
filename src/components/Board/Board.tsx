@@ -11,6 +11,7 @@ import {
   getMatchingGroups,
   getSpacesFromMetas,
   getSurroundingInfo,
+  isKo,
   placePiece,
 } from "../../helpers/helpers";
 import {
@@ -38,6 +39,7 @@ const Board = (): ReactElement => {
     black: komi.black,
     white: komi.white,
   });
+  const [lastCapturingSpace, setLastCapturingSpace] = useState<Coordinates | null>(null);
   // Debug state
   const [renderCycle, setRenderCycle] = useState(0);
 
@@ -73,6 +75,10 @@ const Board = (): ReactElement => {
       });
       let newGroups: Groups = {};
       let newBoardMatrix: BoardMatrix = [];
+      // If ko (no capture-back rule) is in effect, prevent the move
+      if (isKo(groups, opponentsToCapture, lastCapturingSpace)) {
+        return;
+      }
       // Check if player has groups surrounding the chosen space with enough liberties
       if (
         groupNumbers.myGroups.length > 0 &&
@@ -118,9 +124,12 @@ const Board = (): ReactElement => {
           newBoardMatrix,
           opponentsToCapture
         );
+        setLastCapturingSpace(yx);
         newBoardMatrix = boardWithCaptures.boardMatrix;
         newGroups = boardWithCaptures.groups;
         setPoints(addPoints(points, playerTurn, boardWithCaptures.points));
+      } else {
+        setLastCapturingSpace(null);
       }
       if (newBoardMatrix.length !== 0 && Object.keys(newGroups).length !== 0) {
         setBoardMatrix(newBoardMatrix);
