@@ -158,6 +158,7 @@ const Board = (): ReactElement => {
                   yx={[coordY, coordX]}
                   handleMove={handleMove}
                   showDebug={showDebug}
+                  playerTurn={playerTurn}
                 />
               ))}
             </div>
