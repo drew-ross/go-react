@@ -63,6 +63,9 @@ const Board = (): ReactElement => {
         playerTurn
       );
       const opponentsToCapture: number[] = [];
+      const libertiesHere: number = getLibertyCountFromSpaces(
+        getSpacesFromMetas(surroundingInfo)
+      );
       groupNumbers.opponentGroups.forEach((groupNumber) => {
         if (getLibertyCountForGroup(groups, boardMatrix, groupNumber) === 1) {
           opponentsToCapture.push(groupNumber);
@@ -73,10 +76,11 @@ const Board = (): ReactElement => {
       // Check if player has groups surrounding the chosen space with enough liberties
       if (
         groupNumbers.myGroups.length > 0 &&
-        groupNumbers.myGroups.some(
+        (groupNumbers.myGroups.some(
           (groupNumber) =>
             getLibertyCountForGroup(groups, boardMatrix, groupNumber) > 1
-        )
+        ) ||
+          libertiesHere > 0)
       ) {
         // Place the piece and combine adjacent groups
         const combined = combineGroups(
@@ -95,7 +99,7 @@ const Board = (): ReactElement => {
         newGroups = boardWithPlayerMove.groups;
       } else if (
         // Check if this space has enough liberties or can capture
-        getLibertyCountFromSpaces(getSpacesFromMetas(surroundingInfo)) > 0 ||
+        libertiesHere > 0 ||
         opponentsToCapture.length > 0
       ) {
         const boardWithPlayerMove = placePiece(
