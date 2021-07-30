@@ -324,3 +324,21 @@ export const addPoints = (
     white: playerTurn === "W" ? points.white + add : points.white,
   };
 };
+
+// Determine if there is a single piece to be captured that was also the piece last played by the other player
+export const isKo = (
+  groups: Groups,
+  groupsToCapture: number[],
+  lastCapturingSpace: Coordinates | undefined
+): boolean => {
+  let isKo = false;
+  if (lastCapturingSpace !== undefined && groupsToCapture.length === 1) {
+    for (let groupNumber in groupsToCapture) {
+      isKo =
+        groups[groupsToCapture[groupNumber]]?.length === 1 &&
+        groups[groupsToCapture[groupNumber]][0][0] === lastCapturingSpace[0] &&
+        groups[groupsToCapture[groupNumber]][0][1] === lastCapturingSpace[1];
+    }
+  }
+  return isKo;
+};
