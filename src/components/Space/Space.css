@@ -9,19 +9,38 @@
   border: none;
 }
 
+.star-point {
+  height: 5px;
+  width: 5px;
+  left: calc(50% - 3px);
+  top: calc(50% - 3px);
+}
+
+.star-point,
 .stone-display,
 .debug-display,
 .hover-stone-display {
   position: absolute;
+
+}
+
+.stone-display,
+.debug-display,
+.hover-stone-display {
   left: 0;
   top: 0;
+}
+
+.star-point,
+.stone-display,
+.hover-stone-display {
+  border-radius: 50%;
 }
 
 .stone-display,
 .hover-stone-display {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
 }
 
 .Space.B {
@@ -29,7 +48,8 @@
 }
 
 .Space.B .stone-display,
-.hover-stone-display.B:hover {
+.hover-stone-display.B:hover,
+.star-point {
   background: black;
 }
 
