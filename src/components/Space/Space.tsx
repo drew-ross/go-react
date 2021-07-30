@@ -55,11 +55,11 @@ const Space = (props: SpaceProps): ReactElement => {
     <button className={`Space ${value[0]}`} onClick={handleClick}>
       <div className={`line-h${lineStyle}`} />
       <div className={`line-v${lineStyle}`} />
+      {isStarPoint && <div className='star-point' />}
       <div className='stone-display' />
       {value[0] === "N" && (
         <div className={`hover-stone-display ${playerTurn}`} />
       )}
-      {isStarPoint && <div className='star-point' />}
       {showDebug && <span className='debug-display'>{`${y}, ${x}`}</span>}
     </button>
   );
