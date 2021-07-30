@@ -329,10 +329,10 @@ export const addPoints = (
 export const isKo = (
   groups: Groups,
   groupsToCapture: number[],
-  lastCapturingSpace: Coordinates | undefined
+  lastCapturingSpace: Coordinates | null
 ): boolean => {
   let isKo = false;
-  if (lastCapturingSpace !== undefined && groupsToCapture.length === 1) {
+  if (lastCapturingSpace !== null && groupsToCapture.length === 1) {
     for (let groupNumber in groupsToCapture) {
       isKo =
         groups[groupsToCapture[groupNumber]]?.length === 1 &&
