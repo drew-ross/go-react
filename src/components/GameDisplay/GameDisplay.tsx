@@ -11,7 +11,7 @@ interface GameDisplayProps {
 }
 
 const GameDisplay = (props: GameDisplayProps): ReactElement => {
-  const { points, playerTurn, komi, setKomi } = props;
+  const { points, playerTurn } = props;
 
   return (
     <div className='GameDisplay'>
