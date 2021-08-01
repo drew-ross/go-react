@@ -39,16 +39,20 @@ const Board = (): ReactElement => {
     black: komi.black,
     white: komi.white,
   });
-  const [lastCapturingSpace, setLastCapturingSpace] = useState<Coordinates | null>(null);
+  const [lastCapturingSpace, setLastCapturingSpace] =
+    useState<Coordinates | null>(null);
   // Debug state
   const [renderCycle, setRenderCycle] = useState(0);
 
   // Debug logs
   useEffect(() => {
-    console.log(`--- Cycle ${renderCycle}`);
-    setRenderCycle(renderCycle + 1);
-    console.log("groups", groups);
-    console.log("boardMatrix", boardMatrix);
+    if (process.env.REACT_APP_ENV === "development") {
+      console.log(`--- Cycle ${renderCycle}`);
+      setRenderCycle(renderCycle + 1);
+      console.log("groups", groups);
+      console.log("boardMatrix", boardMatrix);
+      console.log();
+    }
     // eslint-disable-next-line
   }, [groups, boardMatrix]);
 
@@ -164,9 +168,11 @@ const Board = (): ReactElement => {
             </div>
           ))}
       </div>
-      <button onClick={() => setShowDebug(!showDebug)}>{`${
-        showDebug ? "Hide" : "Show"
-      } Debug Overlay`}</button>
+      {process.env.REACT_APP_ENV === "development" && (
+        <button onClick={() => setShowDebug(!showDebug)}>{`${
+          showDebug ? "Hide" : "Show"
+        } Debug Overlay`}</button>
+      )}
     </div>
   );
 };
