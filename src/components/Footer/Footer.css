@@ -1,0 +1,16 @@
+footer {
+  height: 80px;
+  background: rgb(51, 51, 51);
+  color: rgb(219, 219, 219);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+footer p {
+  margin: 2px 0;
+}
+
+footer a {
+  color: rgb(88, 255, 255);
+}
