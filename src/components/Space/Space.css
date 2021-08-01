@@ -1,8 +1,8 @@
 .Space {
   display: inline;
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: min(calc(1/19 * 640px), calc(1/19 * 100vw));
+  height: min(calc(1/19 * 640px), calc(1/19 * 100vw));
   padding: 0;
   cursor: pointer;
   background: none;
