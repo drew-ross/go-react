@@ -1,0 +1,167 @@
+.Space {
+  display: inline;
+  position: relative;
+  width: min(calc(1/19 * 640px), calc(1/19 * 100vw));
+  height: min(calc(1/19 * 640px), calc(1/19 * 100vw));
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.star-point {
+  height: 5px;
+  width: 5px;
+  left: calc(50% - 2px);
+  top: calc(50% - 2px);
+}
+
+.star-point,
+.stone-display,
+.debug-display,
+.hover-stone-display {
+  position: absolute;
+}
+
+.stone-display,
+.debug-display,
+.hover-stone-display {
+  left: 0;
+  top: 0;
+}
+
+.star-point,
+.stone-display,
+.hover-stone-display {
+  border-radius: 50%;
+}
+
+.stone-display,
+.hover-stone-display {
+  width: 100%;
+  height: 100%;
+}
+
+.Space.B {
+  color: white;
+}
+
+.Space.B .stone-display,
+.hover-stone-display.B:hover,
+.star-point {
+  background: black;
+}
+
+.Space.W .stone-display,
+.hover-stone-display.W:hover {
+  background: white;
+}
+
+.hover-stone-display {
+  opacity: 0.7;
+}
+
+/* All line colors and position absolute */
+.line-h,
+.line-v,
+.line-h--top,
+.line-h--top-left,
+.line-h--top-right,
+.line-h--right,
+.line-h--left,
+.line-h--bottom,
+.line-h--bottom-left,
+.line-h--bottom-right,
+.line-v--top,
+.line-v--top-left,
+.line-v--top-right,
+.line-v--right,
+.line-v--left,
+.line-v--bottom,
+.line-v--bottom-left,
+.line-v--bottom-right {
+  background: black;
+  position: absolute;
+}
+
+/* horizontal line thickness and center position */
+.line-h,
+.line-h--top,
+.line-h--top-left,
+.line-h--top-right,
+.line-h--right,
+.line-h--left,
+.line-h--bottom,
+.line-h--bottom-left,
+.line-h--bottom-right {
+  height: 1px;
+  top: 50%;
+}
+
+/* horizontal lines specific styles */
+.line-h,
+.line-h--top,
+.line-h--bottom {
+  width: 100%;
+}
+
+.line-h--top-left,
+.line-h--top-right,
+.line-h--right,
+.line-h--left,
+.line-h--bottom-left,
+.line-h--bottom-right {
+  width: 50%;
+}
+
+.line-h--top-left,
+.line-h--left,
+.line-h--bottom-left {
+  right: 0;
+}
+
+/* vertical line thickness and center position */
+.line-v,
+.line-v--top,
+.line-v--top-left,
+.line-v--top-right,
+.line-v--right,
+.line-v--left,
+.line-v--bottom,
+.line-v--bottom-left,
+.line-v--bottom-right {
+  width: 1px;
+  left: 50%;
+}
+
+/* vertical lines specific styles */
+.line-v,
+.line-v--left,
+.line-v--right {
+  height: 100%;
+  top: 0;
+}
+
+.line-v--top,
+.line-v--top-left,
+.line-v--top-right,
+.line-v--bottom,
+.line-v--bottom-left,
+.line-v--bottom-right {
+  height: 50%;
+}
+
+.line-v--top-left {
+  height: 50%;
+  bottom: 0;
+}
+
+.line-v--bottom,
+.line-v--bottom-left,
+.line-v--bottom-right {
+  top: 0;
+}
+
+.line-v--bottom-right {
+  height: calc(50% + 1px);
+}
