@@ -1,13 +1,17 @@
 .Board-Container {
-  margin-left: 30px;
+  margin: 32px 0;
+  min-height: calc(100vh - 202px);
 }
 
 .Board {
-  width: 640px;
-  height: 640px;
-  padding: 64px 32px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 20px auto;
+  max-width: 640px;
+  max-height: 640px;
+  width: min(640px, 100vw);
+  height: min(640px, 100vw);
   background: rgb(182, 133, 78);
+}
+
+.Board-row {
+  height: min(calc(1/19 * 640px), calc(1/19 * 100vw));
 }
