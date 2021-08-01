@@ -1,6 +1,8 @@
 import { ReactElement } from "react";
 import { PieceColor, Points } from "../../types/gameTypes";
 
+import "./GameDisplay.css";
+
 interface GameDisplayProps {
   points: Points;
   playerTurn: PieceColor;
@@ -13,8 +15,7 @@ const GameDisplay = (props: GameDisplayProps): ReactElement => {
 
   return (
     <div className='GameDisplay'>
-      <h2>Turn: {playerTurn === "B" ? "Black" : "White"}</h2>
-      <h2>Score:</h2>
+      <p>Turn: {playerTurn === "B" ? "Black" : "White"}</p>
       <p>Black: {points.black}</p>
       <p>White: {points.white}</p>
     </div>
