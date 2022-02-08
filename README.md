@@ -1,7 +1,7 @@
 # The game of Go in React + TypeScript
 
 This is an implementation of the game of Go in React and TypeScript. I made this project to improve my skills as a developer and because I personally enjoy the game. For more information about the game and rules, see
-[the Wikipedia page](https://en.wikipedia.org/wiki/Go_(game)).
+[the Wikipedia page](<https://en.wikipedia.org/wiki/Go_(game)>).
 
 ## Technologies
 
@@ -34,5 +34,3 @@ Builds the app for production to the `build` folder.
 ## Environment
 
 Developers can add a .env file to the root directory to access developer tools. See [sample.env](sample.env).
-
-this line is to test QA Wolf deployment hook.
