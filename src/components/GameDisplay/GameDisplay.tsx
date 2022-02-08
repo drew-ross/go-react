@@ -16,8 +16,8 @@ const GameDisplay = (props: GameDisplayProps): ReactElement => {
   return (
     <div className='GameDisplay'>
       <p>Turn: {playerTurn === "B" ? "Black" : "White"}</p>
-      <p>Black: {points.black}</p>
-      <p>White: {points.white}</p>
+      <p>Black: <span id="points-black">{points.black}</span></p>
+      <p>White: <span id="points-white">{points.white}</span></p>
     </div>
   );
 };
